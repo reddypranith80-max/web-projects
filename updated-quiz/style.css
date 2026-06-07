@@ -1,0 +1,1046 @@
+/* ==========================================
+   DIMENSION QUIZ - 3D GLOBAL STYLES & THEMING
+   ========================================== */
+
+:root {
+    --bg-dark: #09070f;
+    --primary: #6366f1;
+    --primary-glow: rgba(99, 102, 241, 0.4);
+    --primary-dark: #4f46e5;
+
+    --secondary: #06b6d4;
+    --secondary-glow: rgba(6, 182, 212, 0.4);
+    --secondary-dark: #0891b2;
+
+    --accent: #ec4899;
+    --accent-glow: rgba(236, 72, 153, 0.4);
+
+    --correct: #10b981;
+    --correct-glow: rgba(16, 185, 129, 0.4);
+    --correct-dark: #059669;
+
+    --incorrect: #ef4444;
+    --incorrect-glow: rgba(239, 68, 68, 0.4);
+    --incorrect-dark: #dc2626;
+
+    --text-main: #f3f4f6;
+    --text-muted: #9ca3af;
+    --glass-bg: rgba(18, 15, 32, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(99, 102, 241, 0.15);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    perspective: 1200px;
+    /* Crucial for all 3D transforms */
+}
+
+/* ==========================================
+   AMBIENT BACKGROUND EFFECTS (ORBS & CUBES)
+   ========================================== */
+
+.bg-effects {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* Blur Orbs */
+.glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.35;
+    animation: floatOrb 25s infinite alternate ease-in-out;
+}
+
+.orb-1 {
+    width: 400px;
+    height: 400px;
+    background: var(--primary);
+    top: -100px;
+    left: -100px;
+}
+
+.orb-2 {
+    width: 500px;
+    height: 500px;
+    background: var(--secondary);
+    bottom: -150px;
+    right: -100px;
+    animation-delay: -5s;
+}
+
+.orb-3 {
+    width: 300px;
+    height: 300px;
+    background: var(--accent);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.15;
+    animation: floatOrb 35s infinite alternate-reverse ease-in-out;
+}
+
+@keyframes floatOrb {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(80px, 50px) scale(1.15);
+    }
+
+    100% {
+        transform: translate(-50px, -80px) scale(0.9);
+    }
+}
+
+/* 3D Floating CSS Cubes */
+.floating-cube {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    transform-style: preserve-3d;
+    animation: spinCube 20s infinite linear;
+    opacity: 0.2;
+}
+
+.cube-1 {
+    top: 15%;
+    right: 12%;
+}
+
+.cube-2 {
+    bottom: 20%;
+    left: 10%;
+    width: 80px;
+    height: 80px;
+    animation-duration: 28s;
+    animation-direction: reverse;
+}
+
+.cube-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(6, 182, 212, 0.1));
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.1);
+}
+
+.cube-1 .cube-face {
+    transform: translateZ(50px);
+}
+
+.cube-1 .front {
+    transform: rotateY(0deg) translateZ(50px);
+}
+
+.cube-1 .back {
+    transform: rotateY(180deg) translateZ(50px);
+}
+
+.cube-1 .right {
+    transform: rotateY(90deg) translateZ(50px);
+}
+
+.cube-1 .left {
+    transform: rotateY(-90deg) translateZ(50px);
+}
+
+.cube-1 .top {
+    transform: rotateX(90deg) translateZ(50px);
+}
+
+.cube-1 .bottom {
+    transform: rotateX(-90deg) translateZ(50px);
+}
+
+.cube-2 .cube-face {
+    transform: translateZ(40px);
+}
+
+.cube-2 .front {
+    transform: rotateY(0deg) translateZ(40px);
+}
+
+.cube-2 .back {
+    transform: rotateY(180deg) translateZ(40px);
+}
+
+.cube-2 .right {
+    transform: rotateY(90deg) translateZ(40px);
+}
+
+.cube-2 .left {
+    transform: rotateY(-90deg) translateZ(40px);
+}
+
+.cube-2 .top {
+    transform: rotateX(90deg) translateZ(40px);
+}
+
+.cube-2 .bottom {
+    transform: rotateX(-90deg) translateZ(40px);
+}
+
+@keyframes spinCube {
+    0% {
+        transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    }
+
+    100% {
+        transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+    }
+}
+
+/* ==========================================
+   3D PERSPECTIVE WRAPPERS & CONSOLE
+   ========================================== */
+
+.app-wrapper {
+    width: 100%;
+    max-width: 750px;
+    padding: 20px;
+    z-index: 10;
+}
+
+.tilt-container {
+    width: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.glass-console {
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    box-shadow: var(--card-shadow);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+}
+
+/* Console Diagonal Glass Glare Overlay */
+.glass-console::after {
+    content: '';
+    position: absolute;
+    top: -150%;
+    left: -150%;
+    width: 300%;
+    height: 300%;
+    background: linear-gradient(45deg,
+            transparent 45%,
+            rgba(255, 255, 255, 0.05) 50%,
+            transparent 55%);
+    pointer-events: none;
+    transform: rotate(-15deg);
+    z-index: 5;
+}
+
+/* Floating Utilities */
+.utilities {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    display: flex;
+    gap: 12px;
+    z-index: 100;
+}
+
+.icon-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-main);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.icon-btn:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    box-shadow: 0 0 15px var(--primary-glow);
+    transform: scale(1.1) translateZ(10px);
+}
+
+/* ==========================================
+   SCREEN STATE CONTROLS & TRANSITIONS
+   ========================================== */
+
+.screen {
+    display: none;
+    opacity: 0;
+    transform: translate3d(0, 30px, -50px);
+    transition: opacity 0.5s cubic-bezier(0.19, 1, 0.22, 1),
+        transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.screen.active {
+    display: block;
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+/* ==========================================
+   SCREEN 1: WELCOME & CATEGORIES
+   ========================================== */
+
+.brand-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.logo-3d {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 3rem;
+    letter-spacing: 4px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+    transform: translateZ(30px);
+}
+
+.logo-text {
+    background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
+}
+
+.logo-sub {
+    font-size: 1.2rem;
+    color: var(--secondary);
+    letter-spacing: 12px;
+    margin-top: -5px;
+    text-shadow: 0 0 15px var(--secondary-glow);
+}
+
+.tagline {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-main);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 8px;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 2.5rem;
+}
+
+/* 3D Interactive Cards */
+.category-card {
+    background: transparent;
+    border: none;
+    position: relative;
+    height: 150px;
+    cursor: pointer;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    outline: none;
+}
+
+.card-3d-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transform: translateZ(-10px);
+}
+
+.card-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 1.2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 16px;
+    z-index: 2;
+    transform: translateZ(10px);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.cat-icon {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 12px;
+    transition: transform 0.3s ease;
+}
+
+.category-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 6px;
+}
+
+.category-card p {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.3;
+}
+
+/* Card States */
+.category-card:hover .card-3d-bg {
+    background: rgba(99, 102, 241, 0.06);
+    border-color: rgba(99, 102, 241, 0.3);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3),
+        0 0 15px rgba(99, 102, 241, 0.1);
+    transform: translateZ(5px);
+}
+
+.category-card:hover .card-inner {
+    transform: translateZ(25px);
+}
+
+.category-card:hover .cat-icon {
+    transform: scale(1.15) rotate(5deg);
+}
+
+.category-card.selected .card-3d-bg {
+    background: rgba(6, 182, 212, 0.12);
+    border-color: var(--secondary);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4),
+        0 0 20px var(--secondary-glow);
+    transform: translateZ(8px);
+}
+
+.category-card.selected .card-inner {
+    transform: translateZ(30px);
+}
+
+.category-card.selected .cat-icon {
+    color: var(--secondary);
+}
+
+/* ==========================================
+   TACTILE 3D BUTTONS (Universal)
+   ========================================== */
+
+.btn-3d {
+    position: relative;
+    display: inline-block;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+    transform-style: preserve-3d;
+    transition: filter 250ms;
+}
+
+.btn-3d .btn-front {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 36px;
+    border-radius: 12px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    background: var(--primary);
+    color: white;
+    transform: translateY(-6px) translateZ(10px);
+    transition: transform 150ms cubic-bezier(0.3, 0.7, 0.4, 1),
+        background 150ms ease;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.btn-3d .btn-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background: var(--primary-dark);
+    transform: translateY(0);
+    transition: background 150ms ease;
+}
+
+.btn-3d:hover .btn-front {
+    transform: translateY(-4px) translateZ(10px);
+    background: #6f72ff;
+}
+
+.btn-3d:active .btn-front {
+    transform: translateY(0px) translateZ(10px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Button Variants */
+.btn-3d.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.btn-3d.secondary .btn-front {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-main);
+}
+
+.btn-3d.secondary .btn-back {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.btn-3d.secondary:hover .btn-front {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.start-action {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+/* ==========================================
+   SCREEN 2: GAMEPLAY LAYOUT
+   ========================================== */
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 12px 20px;
+    transform: translateZ(10px);
+}
+
+.meta-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.meta-item.flex-center {
+    align-items: center;
+}
+
+.meta-item .label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.meta-item .value {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text-main);
+}
+
+.meta-item .value.highlight {
+    color: var(--secondary);
+    text-shadow: 0 0 10px var(--secondary-glow);
+}
+
+/* Lives Heart Icons */
+.lives-container {
+    display: flex;
+    gap: 8px;
+}
+
+.lives-container i {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.15);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.lives-container i.active-life {
+    color: var(--accent);
+    filter: drop-shadow(0 0 5px var(--accent-glow));
+}
+
+.lives-container i.lost-life {
+    transform: scale(0.5) rotate(45deg);
+    opacity: 0.2;
+}
+
+/* Progress bar system */
+.progress-section {
+    margin-bottom: 2rem;
+}
+
+.progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.progress-bar-3d {
+    height: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    border-radius: 5px;
+    box-shadow: 0 0 10px var(--secondary-glow);
+    transition: width 0.4s cubic-bezier(0.1, 0.8, 0.1, 1);
+}
+
+/* ==========================================
+   3D QUESTION CARD (FLIP EFFECT)
+   ========================================== */
+
+.question-container-3d {
+    perspective: 1000px;
+    margin-bottom: 2rem;
+}
+
+.question-card-inner {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2.2rem 2rem;
+    min-height: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+#question-text {
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--text-main);
+    transform: translateZ(20px);
+}
+
+/* Question card spin transition */
+.question-card-inner.spin {
+    transform: rotateX(360deg);
+}
+
+/* Gameplay Timer */
+.timer-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 2rem;
+}
+
+.timer-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.timer-track {
+    flex-grow: 1;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+}
+
+.timer-fill {
+    height: 100%;
+    width: 100%;
+    background: var(--secondary);
+    box-shadow: 0 0 8px var(--secondary-glow);
+    border-radius: 3px;
+}
+
+.timer-fill.warning {
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent-glow);
+    animation: pulseTimer 1s infinite alternate;
+}
+
+@keyframes pulseTimer {
+    0% {
+        opacity: 0.7;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* ==========================================
+   3D PRESSABLE OPTION BUTTONS
+   ========================================== */
+
+.options-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+/* 3D Tactile Option Button */
+.option-btn-3d {
+    position: relative;
+    background: transparent;
+    border: none;
+    padding: 0;
+    width: 100%;
+    cursor: pointer;
+    outline: none;
+    transform-style: preserve-3d;
+    text-align: left;
+    transition: opacity 0.3s ease;
+}
+
+.option-btn-3d .opt-front {
+    display: flex;
+    align-items: center;
+    padding: 18px 24px;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-main);
+    transform: translateY(-5px) translateZ(10px);
+    transition: transform 150ms cubic-bezier(0.3, 0.7, 0.4, 1),
+        background 150ms ease,
+        border-color 150ms ease,
+        box-shadow 150ms ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+.option-btn-3d .opt-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.01);
+    border-bottom: 4px solid rgba(255, 255, 255, 0.05);
+    transform: translateY(0);
+    transition: background 150ms ease, border-color 150ms ease;
+}
+
+.option-btn-3d:hover:not(.disabled) .opt-front {
+    transform: translateY(-3px) translateZ(10px);
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(99, 102, 241, 0.3);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3),
+        0 0 10px rgba(99, 102, 241, 0.05);
+}
+
+.option-btn-3d:active:not(.disabled) .opt-front {
+    transform: translateY(0px) translateZ(10px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Option Letter Prefix */
+.opt-prefix {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    color: var(--secondary);
+    margin-right: 15px;
+    background: rgba(6, 182, 212, 0.1);
+    border: 1px solid rgba(6, 182, 212, 0.2);
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.85rem;
+    text-shadow: 0 0 5px var(--secondary-glow);
+}
+
+/* Success & Error Gameplay States */
+.option-btn-3d.correct .opt-front {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: var(--correct);
+    color: #a7f3d0;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2),
+        0 0 15px var(--correct-glow);
+}
+
+.option-btn-3d.correct .opt-back {
+    background: var(--correct-dark);
+    border-bottom: none;
+}
+
+.option-btn-3d.correct .opt-prefix {
+    background: var(--correct);
+    border-color: var(--correct);
+    color: white;
+}
+
+.option-btn-3d.incorrect .opt-front {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: var(--incorrect);
+    color: #fca5a5;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2),
+        0 0 15px var(--incorrect-glow);
+}
+
+.option-btn-3d.incorrect .opt-back {
+    background: var(--incorrect-dark);
+    border-bottom: none;
+}
+
+.option-btn-3d.incorrect .opt-prefix {
+    background: var(--incorrect);
+    border-color: var(--incorrect);
+    color: white;
+}
+
+/* Disabled option button representation */
+.option-btn-3d.disabled {
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* ==========================================
+   SCREEN 3: RESULTS & STATS VIEW
+   ========================================== */
+
+.result-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.result-badge-container {
+    display: inline-block;
+    perspective: 1000px;
+    margin-bottom: 20px;
+    transform: translateZ(20px);
+}
+
+.badge-3d {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    color: white;
+    box-shadow: 0 15px 30px rgba(245, 158, 11, 0.3),
+        0 0 30px rgba(245, 158, 11, 0.2);
+    animation: rotateBadge 8s infinite linear;
+}
+
+@keyframes rotateBadge {
+    0% {
+        transform: rotateY(0deg);
+    }
+
+    50% {
+        transform: rotateY(180deg);
+    }
+
+    100% {
+        transform: rotateY(360deg);
+    }
+}
+
+.result-header h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+#performance-feedback {
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+/* 3D Score Panels */
+.stats-panel-3d {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 2.5rem;
+}
+
+.stat-card {
+    background: transparent;
+    perspective: 800px;
+}
+
+.stat-inner {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 20px 10px;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: translateZ(5px);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover .stat-inner {
+    transform: translateZ(15px);
+    border-color: rgba(6, 182, 212, 0.2);
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.stat-value {
+    display: block;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 1.4rem;
+    color: var(--secondary);
+    text-shadow: 0 0 10px var(--secondary-glow);
+}
+
+.result-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN SYSTEM
+   ========================================== */
+
+@media (max-width: 650px) {
+    .glass-console {
+        padding: 1.5rem;
+    }
+
+    .logo-3d {
+        font-size: 2.2rem;
+    }
+
+    .category-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .category-card {
+        height: 100px;
+    }
+
+    .category-card .card-inner {
+        flex-direction: row;
+        text-align: left;
+        justify-content: flex-start;
+        gap: 15px;
+        padding: 1rem;
+    }
+
+    .cat-icon {
+        font-size: 1.6rem;
+        margin-bottom: 0;
+    }
+
+    .stats-panel-3d {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .stat-inner {
+        padding: 12px;
+    }
+
+    .result-actions {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .btn-3d {
+        width: 100%;
+    }
+
+    .btn-3d .btn-front {
+        width: 100%;
+    }
+
+    #question-text {
+        font-size: 1.15rem;
+    }
+}

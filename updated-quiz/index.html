@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DimensionQuiz - 3D Trivia Experience</title>
+    <!-- Google Fonts for Modern and Sci-Fi/Premium Feel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 3D Ambient Background Particles -->
+    <div class="bg-effects">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+        <div class="floating-cube cube-1">
+            <div class="cube-face front"></div>
+            <div class="cube-face back"></div>
+            <div class="cube-face right"></div>
+            <div class="cube-face left"></div>
+            <div class="cube-face top"></div>
+            <div class="cube-face bottom"></div>
+        </div>
+        <div class="floating-cube cube-2">
+            <div class="cube-face front"></div>
+            <div class="cube-face back"></div>
+            <div class="cube-face right"></div>
+            <div class="cube-face left"></div>
+            <div class="cube-face top"></div>
+            <div class="cube-face bottom"></div>
+        </div>
+    </div>
+
+    <!-- Main Container supporting 3D Parallax Tilt -->
+    <div class="app-wrapper">
+        <div class="tilt-container" id="tilt-box">
+            
+            <!-- Floating Utilities: Sound and Category selection -->
+            <div class="utilities">
+                <button class="icon-btn" id="sound-toggle" title="Toggle Sound">
+                    <i class="fas fa-volume-up" id="sound-icon"></i>
+                </button>
+            </div>
+
+            <!-- CARD CONTENT HOLDER -->
+            <div class="glass-console">
+                
+                <!-- SCREEN 1: CATEGORY / START SCREEN -->
+                <div class="screen active" id="start-screen">
+                    <div class="brand-header">
+                        <div class="logo-3d">
+                            <span class="logo-text">DIMENSION</span>
+                            <span class="logo-sub">QUIZ</span>
+                        </div>
+                        <p class="tagline">Step into the 3rd dimension of trivia. Test your intellect across different disciplines.</p>
+                    </div>
+
+                    <div class="section-title">Select Your Domain</div>
+                    <div class="category-grid">
+                        <button class="category-card" data-category="geography">
+                            <div class="card-3d-bg"></div>
+                            <div class="card-inner">
+                                <div class="cat-icon"><i class="fas fa-globe-americas"></i></div>
+                                <h3>Geography</h3>
+                                <p>Capitals, oceans, and global wonders.</p>
+                            </div>
+                        </button>
+                        <button class="category-card" data-category="science">
+                            <div class="card-3d-bg"></div>
+                            <div class="card-inner">
+                                <div class="cat-icon"><i class="fas fa-flask"></i></div>
+                                <h3>Space & Science</h3>
+                                <p>Planets, cosmos, and molecular physics.</p>
+                            </div>
+                        </button>
+                        <button class="category-card" data-category="literature">
+                            <div class="card-3d-bg"></div>
+                            <div class="card-inner">
+                                <div class="cat-icon"><i class="fas fa-book-open"></i></div>
+                                <h3>History & Lit</h3>
+                                <p>Classic authors, historical turning points.</p>
+                            </div>
+                        </button>
+                    </div>
+
+                    <div class="start-action">
+                        <button id="start-btn" class="btn-3d disabled">
+                            <span class="btn-front">Choose a Domain</span>
+                            <span class="btn-back"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SCREEN 2: GAME BOARD -->
+                <div class="screen" id="quiz-screen">
+                    <!-- Quiz Status Bar -->
+                    <div class="game-header">
+                        <div class="meta-item">
+                            <span class="label">DOMAIN</span>
+                            <span class="value" id="current-category-name">Geography</span>
+                        </div>
+                        <div class="meta-item flex-center">
+                            <span class="label">LIVES</span>
+                            <div class="lives-container" id="lives-box">
+                                <i class="fas fa-heart active-life"></i>
+                                <i class="fas fa-heart active-life"></i>
+                                <i class="fas fa-heart active-life"></i>
+                            </div>
+                        </div>
+                        <div class="meta-item">
+                            <span class="label">SCORE</span>
+                            <span class="value highlight" id="score-counter">00</span>
+                        </div>
+                    </div>
+
+                    <!-- Modern Progress Dial & Question Number -->
+                    <div class="progress-section">
+                        <div class="progress-meta">
+                            Question <span id="current-question-num">1</span> of <span id="total-questions-num">5</span>
+                        </div>
+                        <div class="progress-bar-3d">
+                            <div class="progress-fill" id="progress-fill"></div>
+                        </div>
+                    </div>
+
+                    <!-- 3D Question Card Container -->
+                    <div class="question-container-3d">
+                        <div class="question-card-inner" id="question-card">
+                            <div class="question-front">
+                                <p id="question-text">Loading question coordinates...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timer Bar -->
+                    <div class="timer-container">
+                        <div class="timer-label"><i class="far fa-clock"></i> TIMER</div>
+                        <div class="timer-track">
+                            <div class="timer-fill" id="timer-fill"></div>
+                        </div>
+                    </div>
+
+                    <!-- Answer Options (3D buttons) -->
+                    <div class="options-container" id="options-box">
+                        <!-- Populated via Javascript -->
+                    </div>
+                </div>
+
+                <!-- SCREEN 3: RESULTS SCREEN -->
+                <div class="screen" id="result-screen">
+                    <div class="result-header">
+                        <div class="result-badge-container">
+                            <div class="badge-3d" id="badge-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                        </div>
+                        <h2>Domain Completed!</h2>
+                        <p id="performance-feedback">Analyzing neural network stats...</p>
+                    </div>
+
+                    <div class="stats-panel-3d">
+                        <div class="stat-card">
+                            <div class="stat-inner">
+                                <span class="stat-label">Accuracy</span>
+                                <span class="stat-value" id="accuracy-rate">0%</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-inner">
+                                <span class="stat-label">Final Score</span>
+                                <span class="stat-value" id="final-score-counter">0/5</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-inner">
+                                <span class="stat-label">Time Bonus</span>
+                                <span class="stat-value" id="time-bonus-value">+0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-actions">
+                        <button id="restart-btn" class="btn-3d primary">
+                            <span class="btn-front"><i class="fas fa-redo"></i> Reinitialize</span>
+                            <span class="btn-back"></span>
+                        </button>
+                        <button id="menu-btn" class="btn-3d secondary">
+                            <span class="btn-front"><i class="fas fa-home"></i> Main Menu</span>
+                            <span class="btn-back"></span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
